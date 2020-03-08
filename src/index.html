@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -7,14 +7,26 @@
   <title>karuta</title>
 
   <!-- Stylesheets -->
+<link rel="stylesheet" type="text/css" href="index.css">
 
   <!-- Scripts -->
   <script type="text/javascript" src="game_compiled.js"></script>
 </head>
 
 <body>
-<h1>test</h1>
+<h1>カルタ</h1>
 
+<button type="button" aria-expanded="false" id="navigation_btn" onclick="onNavigationButtonClick();">サウンドリスト</button>
+
+<div class="soundlist closed" id="soundlist">
+<p>
+<select id="soundlist_select" size="5" aria-label="サウンドリスト">
+</select>
+</p>
+<p>
+<button type="button" onclick="onSoundListDecide();">鳴らす</button>
+</p>
+</div>
 
 </body>
 
