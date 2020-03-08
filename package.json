@@ -5,7 +5,10 @@
   "repository": "https://github.com/yncat/karuta",
   "main": "app.js",
   "scripts": {
-    "start": "electron app.js"
+    "watch": "parcel watch ./src/js/game.js -d ./src --target=electron --no-hmr",
+    "build": "parcel build ./src/js/game.js -d ./src --target=electron",
+    "start": "electron ./src/app.js",
+    "run": "npm run build; electron ./src/app.js"
   },
   "license": "LGPL",
   "devDependencies": {
@@ -13,6 +16,7 @@
   },
   "dependencies": {
     "howler": "^2.1.3",
-    "papaparse": "^4.6.0"
+    "papaparse": "^4.6.0",
+    "parcel": "^1.12.4"
   }
 }
