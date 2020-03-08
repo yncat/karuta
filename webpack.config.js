@@ -1,5 +1,6 @@
 const path = require('path');
 module.exports = {
+  target: 'node',
   mode: 'development',
   entry: './src/js/game.js',
   output: {

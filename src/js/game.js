@@ -1,6 +1,9 @@
 import {Howl, Howler} from 'howler';
-
-window.game_start=function(){
-var sound = new Howl({src: ['sounds/cat.ogg']});
-sound.play();
+import {sounds} from './soundList'
+window.onload=function(){
+//var sound = new Howl({src: ['soundscat.ogg']});
+//sound.play();
+//sounds = fs.readdirSync('./sounds');
+//console.log(sounds);
+console.log("sound length:"+sounds.length)
 }
