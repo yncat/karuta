@@ -3,9 +3,16 @@ import {sounds} from './soundList'
 
 var howls={};
 var startSound=new Howl({src: ['sounds/start.mp3']});
+var sounds_loaded=false;
+var current_mode=-1;//-1: not selected, 0:remote control, 1:receiver
 
 function read(message){
 document.getElementById("message_area").innerHTML=message;
+}
+
+function sendMessage(message){
+m=JSON.stringify(message);
+current_connection.send(m);
 }
 
 function processMessage(message){
@@ -53,14 +60,26 @@ document.getElementById("soundlist").className=navigation_opened=="true" ? "soun
 window.onSoundListDecide=function(){
 const filename=document.getElementById("soundlist_select").value;
 var send={'command': 'request', 'filename': filename};
-send=JSON.stringify(send);
-current_connection.send(send);
+sendMessage(send);
 }
 
-window.onStartButtonPress=function(){
+window.onStartButtonPress=function(mode){
+if(current_mode==mode) return;
 startSound.play();
+if(!sounds_loaded){
 sounds.forEach((elem)=>{
 howls[elem]=new Howl({src: ['sounds/'+elem+'.mp3']});
 });
-document.getElementById("start_button").disabled=true;
+sounds_loaded=true;
+}
+if(mode==0){
+sendMessage({'command': 'remote_control_request'});
+}else{
+document.getElementById("remote_control_button").setAttribute("aria-pressed","false");
+document.getElementById("card_button").setAttribute("aria-pressed","true");
+if(current_mode==0){
+sendMessage({'command': 'remote_control_exit'});
+}
+}
+current_mode=mode;
 }
