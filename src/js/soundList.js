@@ -1,6 +1,17 @@
 export var sounds=new Array(
-'bird1',
-'bird2',
+'angry cat',
+'bird',
 'cat',
-'dog1'
+'cricket',
+'dog',
+'elephant',
+'frog',
+'horse',
+'lion',
+'minmin-semi',
+'monkey',
+'rattle snake',
+'rooster',
+'sheep',
+'wolf'
 );

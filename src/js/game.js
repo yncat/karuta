@@ -16,7 +16,7 @@ return;
 }
 
 if(m['command']=='player_count'){
-read("Q‰ÁÒ: "+m['number']+"l");
+read("å‚åŠ è€…: "+m['number']+"äºº");
 return;
 }
 }
