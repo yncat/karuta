@@ -2,6 +2,7 @@ import {Howl, Howler} from 'howler';
 import {sounds} from './soundList'
 
 var howls={};
+var startSound=new Howl({src: ['sounds/start.ogg']});
 
 function read(message){
 document.getElementById("message_area").innerHTML=message;
@@ -51,6 +52,7 @@ current_connection.send(send);
 }
 
 window.onStartButtonPress=function(){
+startSound.play();
 sounds.forEach((elem)=>{
 howls[elem]=new Howl({src: ['sounds/'+elem+'.ogg']});
 });
