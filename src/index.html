@@ -15,17 +15,16 @@
 
 <body>
 <h1>カルタ</h1>
-
+<p>このデバイスから問題を出題する場合は、「リモコンとして使用」をえらんでください。カルタカードとして使用するときは、「カードとして使用」を選んでください。</p>
 <p>
-<button type="button" id="start_button" onclick="onStartButtonPress();">スタート</button>
+<button type="button" id="remote_control_button" onclick="onStartButtonPress(0);" aria-pressed="false">リモコンとして使用</button>
+<button type="button" id="card_button" onclick="onStartButtonPress(1);" aria-pressed="false">カードとして使用</button>
 </p>
-
-<button type="button" aria-expanded="false" id="navigation_btn" onclick="onNavigationButtonClick();">サウンドリスト</button>
 
 <div class="soundlist closed" id="soundlist">
 <p>
-<select id="soundlist_select" size="5" aria-label="サウンドリスト">
-</select>
+<label>サウンドリスト: <select id="soundlist_select" size="5">
+</select></label>
 </p>
 <p>
 <button type="button" onclick="onSoundListDecide();">鳴らす</button>
