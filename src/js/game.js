@@ -15,6 +15,29 @@ m=JSON.stringify(message);
 current_connection.send(m);
 }
 
+function onRemoteControlRequestResult(result){
+if(result=='true'){
+read("リモコンモードが有効になりました。");
+setRemoteControlMode(true);
+}else{
+read("すでに誰かがリモコンモードを使用しています。2人でリモコンは使えません。");
+}
+}
+
+function setRemoteControlMode(enabled){
+if(enabled){
+document.getElementById("remote_control_button").setAttribute("aria-pressed","true");
+document.getElementById("card_button").setAttribute("aria-pressed","false");
+document.getElementById("soundlist").className="soundlist";
+current_mode=0;
+}else{
+document.getElementById("remote_control_button").setAttribute("aria-pressed","false");
+document.getElementById("card_button").setAttribute("aria-pressed","true");
+document.getElementById("soundlist").className="soundlist closed";
+current_mode=1;
+}
+}
+
 function processMessage(message){
 const m=JSON.parse(message);
 if(m['command']=='play'){
@@ -25,6 +48,10 @@ return;
 if(m['command']=='player_count'){
 read("参加者: "+m['number']+"人");
 return;
+}
+
+if(m['command']=='remote_control_request_result'){
+onRemoteControlRequestResult(m['result']);
 }
 }
 
@@ -75,11 +102,9 @@ sounds_loaded=true;
 if(mode==0){
 sendMessage({'command': 'remote_control_request'});
 }else{
-document.getElementById("remote_control_button").setAttribute("aria-pressed","false");
-document.getElementById("card_button").setAttribute("aria-pressed","true");
 if(current_mode==0){
 sendMessage({'command': 'remote_control_exit'});
 }
+setRemoteControlMode(false);
 }
-current_mode=mode;
 }
