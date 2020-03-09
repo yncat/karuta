@@ -12,6 +12,12 @@ function processMessage(message){
 const m=JSON.parse(message);
 if(m['command']=='play'){
 howls[m['filename']].play();
+return;
+}
+
+if(m['command']=='player_count'){
+read("Q‰ÁÒ: "+m['number']+"l");
+return;
 }
 }
 
