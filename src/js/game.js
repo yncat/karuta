@@ -11,11 +11,12 @@ document.getElementById("message_area").innerHTML=message;
 }
 
 function sendMessage(message){
-m=JSON.stringify(message);
+const m=JSON.stringify(message);
 current_connection.send(m);
 }
 
 function onRemoteControlRequestResult(result){
+console.log("onRemoteControlRequestResult");
 if(result=='true'){
 read("リモコンモードが有効になりました。");
 setRemoteControlMode(true);
@@ -35,10 +36,12 @@ document.getElementById("remote_control_button").setAttribute("aria-pressed","fa
 document.getElementById("card_button").setAttribute("aria-pressed","true");
 document.getElementById("soundlist").className="soundlist closed";
 current_mode=1;
+read("カードモードが有効になりました。");
 }
 }
 
 function processMessage(message){
+console.log("ProcessMessage: "+message);
 const m=JSON.parse(message);
 if(m['command']=='play'){
 howls[m['filename']].play();
@@ -55,7 +58,8 @@ onRemoteControlRequestResult(m['result']);
 }
 }
 
-const current_connection = new WebSocket("ws://karutaserver.herokuapp.com","karuta-protocol");
+//const current_connection = new WebSocket("ws://karutaserver.herokuapp.com","karuta-protocol");
+const current_connection = new WebSocket("ws://localhost:3000","karuta-protocol");
 current_connection.addEventListener("open", e => {
 read("Connected");
 });
