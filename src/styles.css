@@ -1,19 +1,24 @@
-.gold, .gold small {
+.gold,
+.gold small {
   background-color: gold;
   color: #403600;
 }
 
-.silver, .silver small {
+.silver,
+.silver small {
   background-color: silver;
   color: #404040;
 }
 
-.oil, .oil small {
+.oil,
+.oil small {
   background-color: black;
-  color: #E5E5E5;
+  color: #e5e5e5;
 }
 
-html, body, .container-fluid {
+html,
+body,
+.container-fluid {
   height: 100%;
 }
 
@@ -33,20 +38,21 @@ html, body, .container-fluid {
 
 /* Add a ( before the change */
 .change::before {
-  content: '(';
+  content: "(";
 }
 
 /* Add a ) after the change */
 .change::after {
-  content: ')';
+  content: ")";
 }
 
 /* Add a $ before the price */
 .price::before {
-  content: '$';
+  content: "$";
 }
 
 /* Hide the price and change when they are empty */
-.change:empty, .price:empty {
+.change:empty,
+.price:empty {
   display: none;
 }

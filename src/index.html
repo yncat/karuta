@@ -1,40 +1,55 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
 
-<head>
-  <meta charset="utf-8">
+    <title>karuta</title>
 
-  <title>karuta</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="index.css" />
 
-  <!-- Stylesheets -->
-<link rel="stylesheet" type="text/css" href="index.css">
+    <!-- Scripts -->
+    <script type="text/javascript" src="game_compiled.js"></script>
+  </head>
 
-  <!-- Scripts -->
-  <script type="text/javascript" src="game_compiled.js"></script>
-</head>
+  <body>
+    <h1>カルタ</h1>
+    <p>
+      このデバイスから問題を出題する場合は、「リモコンとして使用」をえらんでください。カルタカードとして使用するときは、「カードとして使用」を選んでください。
+    </p>
+    <p>
+      <button
+        type="button"
+        id="remote_control_button"
+        onclick="onStartButtonPress(0);"
+        aria-pressed="false"
+      >
+        リモコンとして使用
+      </button>
+      <button
+        type="button"
+        id="card_button"
+        onclick="onStartButtonPress(1);"
+        aria-pressed="false"
+      >
+        カードとして使用
+      </button>
+    </p>
 
-<body>
-<h1>カルタ</h1>
-<p>このデバイスから問題を出題する場合は、「リモコンとして使用」をえらんでください。カルタカードとして使用するときは、「カードとして使用」を選んでください。</p>
-<p>
-<button type="button" id="remote_control_button" onclick="onStartButtonPress(0);" aria-pressed="false">リモコンとして使用</button>
-<button type="button" id="card_button" onclick="onStartButtonPress(1);" aria-pressed="false">カードとして使用</button>
-</p>
+    <div class="soundlist closed" id="soundlist">
+      <p>
+        <label
+          >サウンドリスト:
+          <select id="soundlist_select" size="5"> </select
+        ></label>
+      </p>
+      <p>
+        <button type="button" onclick="onSoundListDecide();">鳴らす</button>
+      </p>
+    </div>
 
-<div class="soundlist closed" id="soundlist">
-<p>
-<label>サウンドリスト: <select id="soundlist_select" size="5">
-</select></label>
-</p>
-<p>
-<button type="button" onclick="onSoundListDecide();">鳴らす</button>
-</p>
-</div>
-
-<div id="message_area" aria-live="polite" aria-atomic="true">
-karuta test
-</div>
-
-</body>
-
+    <div id="message_area" aria-live="polite" aria-atomic="true">
+      karuta test
+    </div>
+  </body>
 </html>
