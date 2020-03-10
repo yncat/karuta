@@ -108,6 +108,7 @@ window.onNavigationButtonClick = function() {
 };
 
 window.onSoundListDecide = function() {
+  startSound.play();
   const filename = document.getElementById("soundlist_select").value;
   var send = { command: "request", filename: filename };
   sendMessage(send);
