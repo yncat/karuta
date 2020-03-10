@@ -2,9 +2,13 @@ import {Howl, Howler} from 'howler';
 import {sounds} from './soundList'
 
 var howls={};
-var startSound=new Howl({src: ['sounds/start.mp3']});
+var startSound=new Howl({
+src: ['sounds/start.mp3'],
+loop: true
+});
 var sounds_loaded=false;
 var current_mode=-1;//-1: not selected, 0:remote control, 1:receiver
+var now_playing=null;
 
 function read(message){
 document.getElementById("message_area").innerHTML=message;
@@ -44,7 +48,9 @@ function processMessage(message){
 console.log("ProcessMessage: "+message);
 const m=JSON.parse(message);
 if(m['command']=='play'){
+if(now_playing) now_playing.stop();
 howls[m['filename']].play();
+now_playing=howls[m['filename']];
 return;
 }
 
@@ -58,8 +64,8 @@ onRemoteControlRequestResult(m['result']);
 }
 }
 
-//const current_connection = new WebSocket("ws://karutaserver.herokuapp.com","karuta-protocol");
-const current_connection = new WebSocket("ws://localhost:3000","karuta-protocol");
+const current_connection = new WebSocket("ws://karutaserver.herokuapp.com","karuta-protocol");
+//const current_connection = new WebSocket("ws://localhost:3000","karuta-protocol");
 current_connection.addEventListener("open", e => {
 read("Connected");
 });
