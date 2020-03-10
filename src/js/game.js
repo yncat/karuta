@@ -4,7 +4,6 @@ import {sounds} from './soundList'
 var howls={};
 var startSound=new Howl({
 src: ['sounds/start.mp3'],
-loop: true
 });
 var sounds_loaded=false;
 var current_mode=-1;//-1: not selected, 0:remote control, 1:receiver
@@ -105,7 +104,10 @@ if(current_mode==mode) return;
 startSound.play();
 if(!sounds_loaded){
 sounds.forEach((elem)=>{
-howls[elem]=new Howl({src: ['sounds/'+elem+'.mp3']});
+howls[elem]=new Howl({
+src: ['sounds/'+elem+'.mp3'],
+loop: true
+});
 });
 sounds_loaded=true;
 }
