@@ -19,7 +19,6 @@ function sendMessage(message) {
 }
 
 function onRemoteControlRequestResult(result) {
-  console.log("onRemoteControlRequestResult");
   if (result == "true") {
     read("リモコンモードが有効になりました。");
     setRemoteControlMode(true);
@@ -52,7 +51,6 @@ function setRemoteControlMode(enabled) {
 }
 
 function processMessage(message) {
-  console.log("ProcessMessage: " + message);
   const m = JSON.parse(message);
   if (m["command"] == "play") {
     if (now_playing) now_playing.stop();
