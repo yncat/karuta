@@ -7,6 +7,8 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="stylesheet" href="uikit.min.css" />
+    <script src="uikit.min.js"></script>
 
     <!-- Scripts -->
     <script type="text/javascript" src="game_compiled.js"></script>
@@ -14,10 +16,10 @@
 
   <body>
     <h1>カルタ</h1>
-    <p>
+    <div class="uk-section uk-section-xsmall">
       このデバイスから問題を出題する場合は、「リモコンとして使用」をえらんでください。カルタカードとして使用するときは、「カードとして使用」を選んでください。
-    </p>
-    <p>
+    </div>
+    <div class="uk-button-group">
       <button
         type="button"
         id="remote_control_button"
@@ -34,18 +36,16 @@
       >
         カードとして使用
       </button>
-    </p>
+    </div>
 
     <div class="soundlist closed" id="soundlist">
-      <p>
+      <div class="uk-section uk-section-xsmall">
         <label
           >サウンドリスト:
-          <select id="soundlist_select" size="5"> </select
+          <select class="uk-select" id="soundlist_select" size="5"> </select
         ></label>
-      </p>
-      <p>
         <button type="button" onclick="onSoundListDecide();">鳴らす</button>
-      </p>
+      </div>
     </div>
 
     <div id="message_area" aria-live="polite" aria-atomic="true">
