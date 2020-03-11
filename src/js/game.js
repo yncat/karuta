@@ -107,6 +107,9 @@ function processMessage(message) {
     return;
   }
 
+  if(m["command"]=="right_take_notice"){
+    if(now_playing_filename!=answer_filename) processPlay("","");
+  }
   if (m["command"] == "player_count") {
     read("参加者: " + m["number"] + "人");
     return;
