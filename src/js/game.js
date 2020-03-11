@@ -5,10 +5,19 @@ var howls = {};
 var startSound = new Howl({
   src: ["sounds/start.mp3"]
 });
+var correctSound = new Howl({
+  src: ["sounds/correct.mp3"]
+});
+var wrongSound = new Howl({
+  src: ["sounds/wrong.mp3"]
+});
+
 var sounds_loaded = false;
 var current_mode = -1; //-1: not selected, 0:remote control, 1:receiver
 var now_playing = null;
-var taken=false;
+var now_playing_filename="";
+var allow_take=false;
+var current_answer="";
 
 function read(message) {
   document.getElementById("message_area").innerHTML = message;
@@ -51,20 +60,50 @@ function setRemoteControlMode(enabled) {
   }
 }
 
-function processPlay(filename) {
+function processPlay(filename,answer) {
   if (now_playing) now_playing.stop();
   if (filename == "") {
     now_playing = null;
+    now_playing_filename="";
+    current_answer="";
     return;
   }
   howls[filename].play();
   now_playing = howls[filename];
+  now_playing_filename=filename;
+  answer_filename=answer;
+  allow_take=true;
 }
+
+function processRightTake(){
+  sendMessage({'command': 'right_take'});
+  setTimeout(function(){
+    rightSound.play();
+    now_playing.stop();
+  },3000);
+}
+
+function processWrongTake(){
+  setTimeout(function(){
+    wrongSound.play();
+    now_playing.stop();
+  },3000);
+}
+
+function processTake(){
+  allow_take=false;
+  if(now_playing_filename==answer_filename){
+    processRightTake();
+  }else{
+    processWrongTake();
+  }
+}
+
 
 function processMessage(message) {
   const m = JSON.parse(message);
   if (m["command"] == "play") {
-    processPlay(m["filename"]);
+    processPlay(m["filename"],m["answer_filename"]);
     return;
   }
 
@@ -151,8 +190,8 @@ window.onStartButtonPress = function(mode) {
 
 window.addEventListener( "devicemotion", function( event ){
   var z = parseFloat(event.accelerationIncludingGravity.z);
-  if(!taken && z<8.6){
-    taken=true;
+  if(allow_take && z<8.6){
+    processTake();
     read("取りました");
   }
 });
