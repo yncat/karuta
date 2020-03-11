@@ -50,12 +50,20 @@ function setRemoteControlMode(enabled) {
   }
 }
 
+function processPlay(filename){
+  if (now_playing) now_playing.stop();
+  if(filename==""){
+    now_playing=null;
+    return;
+  }
+  howls[filename].play();
+  now_playing = howls[filename];
+}
+
 function processMessage(message) {
   const m = JSON.parse(message);
   if (m["command"] == "play") {
-    if (now_playing) now_playing.stop();
-    howls[m["filename"]].play();
-    now_playing = howls[m["filename"]];
+    processPlay(m['filename']);
     return;
   }
 
@@ -109,6 +117,12 @@ window.onSoundListDecide = function() {
   startSound.play();
   const filename = document.getElementById("soundlist_select").value;
   var send = { command: "request", filename: filename };
+  sendMessage(send);
+};
+
+window.onSoundListStop = function() {
+  startSound.play();
+  var send = { command: "request", filename: "" };
   sendMessage(send);
 };
 
