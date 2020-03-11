@@ -50,10 +50,10 @@ function setRemoteControlMode(enabled) {
   }
 }
 
-function processPlay(filename){
+function processPlay(filename) {
   if (now_playing) now_playing.stop();
-  if(filename==""){
-    now_playing=null;
+  if (filename == "") {
+    now_playing = null;
     return;
   }
   howls[filename].play();
@@ -63,7 +63,7 @@ function processPlay(filename){
 function processMessage(message) {
   const m = JSON.parse(message);
   if (m["command"] == "play") {
-    processPlay(m['filename']);
+    processPlay(m["filename"]);
     return;
   }
 
