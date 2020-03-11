@@ -8,6 +8,7 @@ var startSound = new Howl({
 var sounds_loaded = false;
 var current_mode = -1; //-1: not selected, 0:remote control, 1:receiver
 var now_playing = null;
+var taken=false;
 
 function read(message) {
   document.getElementById("message_area").innerHTML = message;
@@ -78,7 +79,7 @@ function processMessage(message) {
 }
 
 const current_connection = new WebSocket(
-  "ws://karutaserver.herokuapp.com",
+  "wss://karutaserver.herokuapp.com",
   "karuta-protocol"
 );
 //const current_connection = new WebSocket("ws://localhost:3000","karuta-protocol");
@@ -147,3 +148,11 @@ window.onStartButtonPress = function(mode) {
     setRemoteControlMode(false);
   }
 };
+
+window.addEventListener( "devicemotion", function( event ){
+  var z = parseFloat(event.accelerationIncludingGravity.z);
+  if(!taken && z<8.6){
+    taken=true;
+    read("取りました");
+  }
+});
