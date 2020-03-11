@@ -76,7 +76,7 @@ function processPlay(filename,answer) {
 }
 
 function processRightTake(){
-  sendMessage({'command': 'right_take'});
+  sendMessage({'command': 'took_right'});
   setTimeout(function(){
     rightSound.play();
     now_playing.stop();
@@ -107,7 +107,7 @@ function processMessage(message) {
     return;
   }
 
-  if(m["command"]=="right_take_notice"){
+  if(m["command"]=="took_right"){
     if(now_playing_filename!=answer_filename) processPlay("","");
   }
   if (m["command"] == "player_count") {
