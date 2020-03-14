@@ -5,8 +5,11 @@ var howls = {};
 var startSound = new Howl({
   src: ["sounds/start.mp3"]
 });
-var correctSound = new Howl({
+var rightSound = new Howl({
   src: ["sounds/correct.mp3"]
+});
+var takeSound = new Howl({
+  src: ["sounds/take.mp3"]
 });
 var wrongSound = new Howl({
   src: ["sounds/wrong.mp3"]
@@ -92,6 +95,7 @@ function processWrongTake(){
 
 function processTake(){
   allow_take=false;
+  takeSound.play();
   if(now_playing_filename==right_filename){
     processRightTake();
   }else{
@@ -101,6 +105,7 @@ function processTake(){
 
 
 function processMessage(message) {
+  console.log("received "+message);
   const m = JSON.parse(message);
   if (m["command"] == "play") {
     processPlay(m["filename"],m["right_filename"]);
