@@ -200,7 +200,6 @@ window.addEventListener( "devicemotion", function( event ){
   var z = parseFloat(event.accelerationIncludingGravity.z);
   if(allow_take && z<8.6){
     processTake();
-    read("取りました");
   }
 });
 
