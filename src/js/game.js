@@ -16,8 +16,8 @@ var sounds_loaded = false;
 var current_mode = -1; //-1: not selected, 0:remote control, 1:receiver
 var now_playing = null;
 var now_playing_filename="";
+var right_filename="";
 var allow_take=false;
-var current_answer="";
 
 function read(message) {
   document.getElementById("message_area").innerHTML = message;
@@ -60,18 +60,18 @@ function setRemoteControlMode(enabled) {
   }
 }
 
-function processPlay(filename,answer) {
+function processPlay(filename,right) {
   if (now_playing) now_playing.stop();
   if (filename == "") {
     now_playing = null;
     now_playing_filename="";
-    current_answer="";
+    right_filename="";
     return;
   }
   howls[filename].play();
   now_playing = howls[filename];
   now_playing_filename=filename;
-  answer_filename=answer;
+  right_filename=right;
   allow_take=true;
 }
 
@@ -92,7 +92,7 @@ function processWrongTake(){
 
 function processTake(){
   allow_take=false;
-  if(now_playing_filename==answer_filename){
+  if(now_playing_filename==right_filename){
     processRightTake();
   }else{
     processWrongTake();
@@ -103,12 +103,12 @@ function processTake(){
 function processMessage(message) {
   const m = JSON.parse(message);
   if (m["command"] == "play") {
-    processPlay(m["filename"],m["answer_filename"]);
+    processPlay(m["filename"],m["right_filename"]);
     return;
   }
 
   if(m["command"]=="took_right"){
-    if(now_playing_filename!=answer_filename) processPlay("","");
+    if(now_playing_filename!=right_filename) processPlay("","");
   }
   if (m["command"] == "player_count") {
     read("参加者: " + m["number"] + "人");
@@ -198,3 +198,7 @@ window.addEventListener( "devicemotion", function( event ){
     read("取りました");
   }
 });
+
+window.onkeydown=function(e){
+if(e.code=='KeyA') processTake();
+}
