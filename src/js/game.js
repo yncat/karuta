@@ -1,3 +1,8 @@
+/*
+Karuta client
+Copyright (C) 2020 Yukio Nozawa <personal@nyanchangames.com>
+*/
+
 import { Howl, Howler } from "howler";
 import { sounds } from "./soundList";
 
