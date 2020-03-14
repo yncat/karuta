@@ -23,6 +23,21 @@ var right_filename = "";
 var allow_take = false;
 var sensor_enabled = false;
 
+const current_connection = new WebSocket(
+  "wss://karutaserver.herokuapp.com",
+  "karuta-protocol"
+);
+//const current_connection = new WebSocket("ws://localhost:3000","karuta-protocol");
+current_connection.addEventListener("open", e => {
+  read("Connected");
+});
+current_connection.addEventListener("error", e => {
+  read("connection error");
+});
+current_connection.addEventListener("message", e => {
+  processMessage(e.data);
+});
+
 function read(message) {
   document.getElementById("message_area").innerHTML = message;
 }
@@ -105,7 +120,6 @@ function processTake() {
 }
 
 function processMessage(message) {
-  console.log("received " + message);
   const m = JSON.parse(message);
   if (m["command"] == "play") {
     processPlay(m["filename"], m["right_filename"]);
@@ -125,21 +139,6 @@ function processMessage(message) {
     onRemoteControlRequestResult(m["result"]);
   }
 }
-
-const current_connection = new WebSocket(
-  "wss://karutaserver.herokuapp.com",
-  "karuta-protocol"
-);
-//const current_connection = new WebSocket("ws://localhost:3000","karuta-protocol");
-current_connection.addEventListener("open", e => {
-  read("Connected");
-});
-current_connection.addEventListener("error", e => {
-  read("connection error");
-});
-current_connection.addEventListener("message", e => {
-  processMessage(e.data);
-});
 
 window.onload = function() {
   const lst = document.getElementById("soundlist_select");
