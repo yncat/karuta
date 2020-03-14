@@ -21,7 +21,7 @@ var now_playing = null;
 var now_playing_filename = "";
 var right_filename = "";
 var allow_take = false;
-var sensor_enabled=false;
+var sensor_enabled = false;
 
 function read(message) {
   document.getElementById("message_area").innerHTML = message;
@@ -113,7 +113,7 @@ function processMessage(message) {
   }
 
   if (m["command"] == "took_right") {
-    allow_take=false;
+    allow_take = false;
     if (now_playing_filename != right_filename) processPlay("", "");
   }
   if (m["command"] == "player_count") {
@@ -176,8 +176,8 @@ window.onSoundListStop = function() {
 };
 
 function enableSensor() {
-  sensor_enabled=true;
-  if(!DeviceMotionEvent) return;
+  sensor_enabled = true;
+  if (!DeviceMotionEvent) return;
   if (
     DeviceMotionEvent.requestPermission &&
     typeof DeviceMotionEvent.requestPermission === "function"
@@ -190,7 +190,7 @@ function enableSensor() {
       .catch(function(e) {
         console.log(e);
       });
-  }else{
+  } else {
     window.addEventListener("devicemotion", onDeviceMotion);
   }
 }
