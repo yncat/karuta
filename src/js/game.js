@@ -113,6 +113,7 @@ function processMessage(message) {
   }
 
   if (m["command"] == "took_right") {
+    allow_take=false;
     if (now_playing_filename != right_filename) processPlay("", "");
   }
   if (m["command"] == "player_count") {
@@ -219,7 +220,7 @@ window.onStartButtonPress = function(mode) {
 
 function onDeviceMotion(event) {
   var z = Math.abs(parseFloat(event.accelerationIncludingGravity.z));
-  if (allow_take && z < 8.6) {
+  if (allow_take && z < 8.0) {
     processTake();
   }
 }
