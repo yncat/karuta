@@ -18,9 +18,10 @@ var wrongSound = new Howl({
 var sounds_loaded = false;
 var current_mode = -1; //-1: not selected, 0:remote control, 1:receiver
 var now_playing = null;
-var now_playing_filename="";
-var right_filename="";
-var allow_take=false;
+var now_playing_filename = "";
+var right_filename = "";
+var allow_take = false;
+var sensor_enabled=false;
 
 function read(message) {
   document.getElementById("message_area").innerHTML = message;
@@ -63,57 +64,56 @@ function setRemoteControlMode(enabled) {
   }
 }
 
-function processPlay(filename,right) {
+function processPlay(filename, right) {
   if (now_playing) now_playing.stop();
   if (filename == "") {
     now_playing = null;
-    now_playing_filename="";
-    right_filename="";
+    now_playing_filename = "";
+    right_filename = "";
     return;
   }
   howls[filename].play();
   now_playing = howls[filename];
-  now_playing_filename=filename;
-  right_filename=right;
-  allow_take=true;
+  now_playing_filename = filename;
+  right_filename = right;
+  allow_take = true;
 }
 
-function processRightTake(){
-  sendMessage({'command': 'took_right'});
-  setTimeout(function(){
+function processRightTake() {
+  sendMessage({ command: "took_right" });
+  setTimeout(function() {
     rightSound.play();
     now_playing.stop();
-  },3000);
+  }, 3000);
 }
 
-function processWrongTake(){
-  setTimeout(function(){
+function processWrongTake() {
+  setTimeout(function() {
     wrongSound.play();
     now_playing.stop();
-  },3000);
+  }, 3000);
 }
 
-function processTake(){
-  allow_take=false;
+function processTake() {
+  allow_take = false;
   takeSound.play();
-  if(now_playing_filename==right_filename){
+  if (now_playing_filename == right_filename) {
     processRightTake();
-  }else{
+  } else {
     processWrongTake();
   }
 }
 
-
 function processMessage(message) {
-  console.log("received "+message);
+  console.log("received " + message);
   const m = JSON.parse(message);
   if (m["command"] == "play") {
-    processPlay(m["filename"],m["right_filename"]);
+    processPlay(m["filename"], m["right_filename"]);
     return;
   }
 
-  if(m["command"]=="took_right"){
-    if(now_playing_filename!=right_filename) processPlay("","");
+  if (m["command"] == "took_right") {
+    if (now_playing_filename != right_filename) processPlay("", "");
   }
   if (m["command"] == "player_count") {
     read("参加者: " + m["number"] + "人");
@@ -174,8 +174,29 @@ window.onSoundListStop = function() {
   sendMessage(send);
 };
 
+function enableSensor() {
+  sensor_enabled=true;
+  if(!DeviceMotionEvent) return;
+  if (
+    DeviceMotionEvent.requestPermission &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission()
+      .then(function(response) {
+        if (response === "granted")
+          window.addEventListener("devicemotion", onDeviceMotion);
+      })
+      .catch(function(e) {
+        console.log(e);
+      });
+  }else{
+    window.addEventListener("devicemotion", onDeviceMotion);
+  }
+}
+
 window.onStartButtonPress = function(mode) {
   if (current_mode == mode) return;
+  if (!sensor_enabled) enableSensor();
   startSound.play();
   if (!sounds_loaded) {
     sounds.forEach(elem => {
@@ -196,13 +217,13 @@ window.onStartButtonPress = function(mode) {
   }
 };
 
-window.addEventListener( "devicemotion", function( event ){
-  var z = parseFloat(event.accelerationIncludingGravity.z);
-  if(allow_take && z<8.6){
+function onDeviceMotion(event) {
+  var z = Math.abs(parseFloat(event.accelerationIncludingGravity.z));
+  if (allow_take && z < 8.6) {
     processTake();
   }
-});
-
-window.onkeydown=function(e){
-if(e.code=='KeyA') processTake();
 }
+
+window.onkeydown = function(e) {
+  if (e.code == "KeyA") processTake();
+};
